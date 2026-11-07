@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pixel & Code — разработка сайтов</title>
+<meta name="description" content="Pixel & Code: сайты-визитки, лендинги, корпоративные сайты, порталы и промо-сайты под задачи вашего бизнеса.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b10;--bg2:#10121a;--ink:#f2f3f7;--mute:#8d92a3;--line:rgba(255,255,255,.1);
+  --card:rgba(255,255,255,.04);--acc:#c6ff3d;--acc-ink:#0a0b10;--vio:#7c5cff;--pink:#ff5c9d;
+  --f-head:"Unbounded","Arial Black",system-ui,sans-serif;--f-body:"Manrope",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#f6f5f0;--bg2:#eceae2;--ink:#12131a;--mute:#5d6272;--line:rgba(0,0,0,.12);--card:rgba(0,0,0,.035);--acc:#5b3df5;--acc-ink:#fff;--vio:#5b3df5;--pink:#e83e8c}
+}
+:root[data-theme="light"]{--bg:#f6f5f0;--bg2:#eceae2;--ink:#12131a;--mute:#5d6272;--line:rgba(0,0,0,.12);--card:rgba(0,0,0,.035);--acc:#5b3df5;--acc-ink:#fff;--vio:#5b3df5;--pink:#e83e8c}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(80px + env(safe-area-inset-top,0px));height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--f-head);font-weight:700;line-height:1.08;margin:0;letter-spacing:-.02em}
+ul{list-style:none;margin:0;padding:0}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+section{padding:clamp(70px,10vw,130px) 0;position:relative}
+.eyebrow{font:500 13px var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--acc);display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.eyebrow::before{content:"";width:22px;height:2px;background:currentColor}
+h2{font-size:clamp(28px,4.6vw,54px);max-width:16ch}
+.lead{color:var(--mute);max-width:52ch;margin:18px 0 0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;font-weight:700;font-size:15px;border:1px solid var(--line);transition:transform .25s,box-shadow .25s,background .25s,color .25s;cursor:pointer;font-family:inherit;color:var(--ink);background:transparent}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn .ar{transition:transform .25s}.btn:hover .ar{transform:translateX(5px)}
+.btn.pri{background:var(--acc);color:var(--acc-ink);border-color:transparent}
+.btn.pri:hover{box-shadow:0 12px 34px -8px var(--acc)}
+.btn.ghost:hover{background:var(--card);border-color:var(--ink)}
+.btn.sm{padding:11px 20px;font-size:14px}
+
+/* header */
+header{position:fixed;inset:0 0 auto;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+header.scrolled{background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font:700 18px var(--f-head);display:flex;align-items:center;gap:10px}
+.logo i{width:14px;height:14px;background:var(--acc);display:block;box-shadow:7px 7px 0 var(--vio);margin-right:7px;transition:transform .4s}
+.logo:hover i{transform:rotate(90deg)}
+.logo span{color:var(--acc)}
+.links{display:flex;gap:34px;font-weight:500;font-size:15px}
+.links a{position:relative;color:var(--mute);transition:color .2s}
+.links a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:var(--acc);transition:width .3s}
+.links a:hover,.links a.on{color:var(--ink)}.links a:hover::after,.links a.on::after{width:100%}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;position:relative;color:var(--ink)}
+.burger i,.burger i::before{position:absolute;left:12px;width:18px;height:2px;background:currentColor;transition:.3s}
+.burger i{top:21px}.burger i::before{content:"";left:0;top:-6px;box-shadow:0 12px 0 currentColor}
+.burger[aria-expanded=true] i{background:transparent}
+.burger[aria-expanded=true] i::before{top:0;transform:rotate(45deg);box-shadow:none}
+.burger[aria-expanded=true] i::after{content:"";position:absolute;left:0;top:0;width:18px;height:2px;background:currentColor;transform:rotate(-45deg)}
+
+/* hero */
+.hero{min-height:100svh;display:flex;align-items:center;padding-top:120px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000,transparent 75%);opacity:.7}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.38;pointer-events:none}
+.g1{width:460px;height:460px;background:var(--vio);right:-80px;top:8%}
+.g2{width:320px;height:320px;background:var(--pink);right:22%;bottom:4%;opacity:.2}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:40px;align-items:center;position:relative}
+.tag{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:7px 16px 7px 12px;background:var(--card);margin-bottom:28px}
+.tag b{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px transparent;opacity:.6}0%{box-shadow:0 0 0 0 var(--acc)}}
+.hero h1{font-size:clamp(34px,6.2vw,78px)}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc),var(--vio) 60%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);font-size:clamp(16px,1.6vw,20px);max-width:54ch;margin:28px 0 38px}
+.cta{display:flex;flex-wrap:wrap;gap:14px}
+.code{font:13px/1.8 ui-monospace,Menlo,Consolas,monospace;background:color-mix(in srgb,var(--bg2) 85%,transparent);border:1px solid var(--line);border-radius:20px;padding:22px 24px;transform:rotate(3deg);animation:float 7s ease-in-out infinite;box-shadow:0 30px 60px -30px #000;backdrop-filter:blur(8px)}
+.code .d{display:flex;gap:7px;margin-bottom:14px}.code .d i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.code .d i:first-child{background:var(--pink)}.code .d i:nth-child(2){background:var(--acc)}
+.code .k{color:var(--vio)}.code .s{color:var(--acc)}.code .c{color:var(--mute)}
+@keyframes float{50%{transform:rotate(1deg) translateY(-14px)}}
+
+/* spotlight cards */
+.spot{position:relative;overflow:hidden;border:1px solid var(--line);background:var(--card);border-radius:26px;transition:transform .35s,border-color .35s}
+.spot::before{content:"";position:absolute;inset:0;background:radial-gradient(380px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--acc) 22%,transparent),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.spot:hover{transform:translateY(-8px);border-color:color-mix(in srgb,var(--acc) 55%,transparent)}
+.spot:hover::before{opacity:1}
+
+/* services */
+.block-h{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.pill{font:500 13px var(--f-body);border:1px solid var(--line);padding:8px 16px;border-radius:999px;color:var(--mute)}
+.cards{display:grid;gap:22px}
+.base .cards{grid-template-columns:repeat(3,1fr)}
+.base .cards .spot:nth-child(2){margin-top:44px}
+.card{padding:34px 30px;display:flex;flex-direction:column;height:100%}
+.num{font:700 14px var(--f-head);color:var(--acc);margin-bottom:46px;display:flex;justify-content:space-between}
+.card h3{font-size:24px;margin-bottom:12px}
+.card .d{color:var(--mute);font-size:15px;margin:0 0 20px}
+.card ul{margin-bottom:28px;flex:1}
+.card li{padding:9px 0 9px 26px;border-top:1px solid var(--line);font-size:15px;position:relative}
+.card li::before{content:"";position:absolute;left:3px;top:19px;width:9px;height:9px;background:var(--acc);transform:rotate(45deg) scale(.8);transition:transform .3s}
+.card li:hover::before{transform:rotate(135deg) scale(1.1)}
+.price{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.price b{font:700 22px var(--f-head)}.price small{font:500 13px var(--f-body);color:var(--mute);display:block;margin-bottom:2px}
+.pro{margin-top:clamp(70px,9vw,120px);padding:clamp(28px,5vw,64px);border-radius:36px;background:linear-gradient(140deg,color-mix(in srgb,var(--vio) 34%,var(--bg2)),var(--bg2) 55%,color-mix(in srgb,var(--pink) 18%,var(--bg2)));border:1px solid var(--line);position:relative;overflow:hidden}
+.pro::after{content:"PRO";position:absolute;right:-10px;top:-40px;font:700 clamp(120px,20vw,260px)/1 var(--f-head);color:var(--ink);opacity:.04;pointer-events:none}
+.pro .cards{grid-template-columns:repeat(3,1fr);position:relative;z-index:1}
+.pro .spot{background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.pro .card h3{font-size:21px}
+
+/* portfolio */
+.pf{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.pj{display:flex;flex-direction:column}
+.shot{aspect-ratio:16/10;margin:10px 10px 0;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot .bar{position:absolute;top:0;left:0;right:0;height:26px;background:rgba(0,0,0,.35);display:flex;gap:6px;align-items:center;padding-left:12px}
+.shot .bar i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
+.shot .ln{position:absolute;left:12%;height:10px;border-radius:6px;background:rgba(255,255,255,.75)}
+.shot .demo{position:absolute;right:10px;bottom:10px;font:700 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;background:var(--bg);color:var(--ink);padding:5px 10px;border-radius:999px}
+.pj .body{padding:22px 26px 28px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pj .type{font:500 12px var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
+.pj h3{font-size:19px}.pj p{margin:0 0 10px;color:var(--mute);font-size:15px;flex:1}
+.pj .btn{align-self:flex-start}
+.note{margin-top:28px;color:var(--mute);font-size:14px}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:56px;position:relative;counter-reset:s}
+.steps::before{content:"";position:absolute;left:0;right:0;top:27px;height:2px;background:linear-gradient(90deg,var(--acc),var(--vio),var(--pink));opacity:.55}
+.step{position:relative;padding-top:0}
+.step .n{width:56px;height:56px;border-radius:18px;background:var(--bg);border:2px solid var(--acc);display:grid;place-items:center;font:700 16px var(--f-head);color:var(--acc);margin-bottom:22px;position:relative;transition:.3s}
+.step:hover .n{background:var(--acc);color:var(--acc-ink);transform:rotate(-8deg) scale(1.08)}
+.step h3{font-size:18px;margin-bottom:8px}.step p{margin:0;color:var(--mute);font-size:15px}
+
+/* contacts */
+.contact{padding-bottom:60px}
+.big{border-radius:40px;padding:clamp(36px,7vw,90px);background:linear-gradient(130deg,var(--acc),color-mix(in srgb,var(--acc) 40%,var(--vio)) 55%,var(--vio));color:var(--acc-ink);position:relative;overflow:hidden}
+.big::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.08) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(120deg,transparent 30%,#000);-webkit-mask-image:linear-gradient(120deg,transparent 30%,#000)}
+.big>*{position:relative}
+.big h2{max-width:14ch;font-size:clamp(30px,5.4vw,66px)}
+.big .info{display:flex;flex-wrap:wrap;gap:12px 36px;margin:30px 0 38px;font-weight:700;font-size:18px}
+.big .info a{border-bottom:2px solid currentColor;padding-bottom:2px}
+.big .btn.pri{background:var(--ink);color:var(--bg)}
+.big .btn.ghost{border-color:currentColor;color:inherit}
+.big .btn.ghost:hover{background:rgba(255,255,255,.2)}
+footer{padding:34px 0 40px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+.spot.rv.in:hover{transform:translateY(-8px)}
+.hero-grid .rv{transition-delay:var(--d,0s)}
+
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}.code{display:none}
+  .base .cards,.pro .cards,.pf{grid-template-columns:1fr 1fr}
+  .base .cards .spot:nth-child(2){margin-top:0}
+  .steps{grid-template-columns:1fr;gap:0}
+  .steps::before{left:27px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .step{display:grid;grid-template-columns:56px 1fr;gap:0 20px;padding-bottom:30px}
+  .step .n{margin:0;grid-row:span 2;background:var(--bg)}
+}
+@media (max-width:760px){
+  .burger{display:block}
+  .nav .btn{display:none}
+  .links{position:fixed;inset:calc(72px + env(safe-area-inset-top,0px)) 0 auto;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 20px 24px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:.3s}
+  .links.open{transform:none;opacity:1;pointer-events:auto}
+  .links a{padding:16px 0;font-size:19px;border-bottom:1px solid var(--line);color:var(--ink)}
+  .links a::after{display:none}
+  .links .m-cta{display:inline-flex;margin-top:20px;justify-content:center;border:0}
+  .base .cards,.pro .cards,.pf{grid-template-columns:1fr}
+  .cta .btn,.big .btn{width:100%;justify-content:center}
+}
+@media (min-width:761px){.m-cta{display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#home" aria-label="Pixel & Code"><i></i>Pixel <span>&amp;</span> Code</a>
+    <nav class="links" id="menu" aria-label="Основная навигация">
+      <a href="#home">Главная</a><a href="#services">Услуги</a><a href="#portfolio">Портфолио</a><a href="#contacts">Контакты</a>
+      <a class="btn pri m-cta" href="#contacts">Обсудить проект</a>
+    </nav>
+    <a class="btn pri sm" href="#contacts">Обсудить проект <span class="ar">→</span></a>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="menu"><i></i></button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="tag rv"><b></b>Веб-разработка под ключ</div>
+      <h1 class="rv" style="--d:.1s">Создаю сайты, которые <em>представляют ваш бизнес</em> и помогают находить клиентов</h1>
+      <p class="rv" style="--d:.2s">Разрабатываю современные сайты под задачи бизнеса, личного бренда и проектов. От простых сайтов-визиток до полноценных веб-платформ.</p>
+      <div class="cta rv" style="--d:.3s">
+        <a class="btn pri" href="#services">Посмотреть услуги <span class="ar">→</span></a>
+        <a class="btn ghost" href="#portfolio">Мои работы</a>
+      </div>
+    </div>
+    <div class="code rv" style="--d:.4s" aria-hidden="true">
+      <div class="d"><i></i><i></i><i></i></div>
+      <div><span class="c">// ваш сайт</span></div>
+      <div><span class="k">const</span> project = {</div>
+      <div>&nbsp;&nbsp;idea: <span class="s">"ваша"</span>,</div>
+      <div>&nbsp;&nbsp;design: <span class="s">"чистый"</span>,</div>
+      <div>&nbsp;&nbsp;code: <span class="s">"аккуратный"</span>,</div>
+      <div>&nbsp;&nbsp;result: <span class="s">"клиенты"</span></div>
+      <div>};</div>
+      <div><span class="k">launch</span>(project);</div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="base">
+      <div class="block-h">
+        <div><div class="eyebrow rv">Услуги · 01</div><h2 class="rv">Базовые сайты</h2><p class="lead rv">Быстрый старт: понятный результат для специалистов, малого бизнеса и частных проектов.</p></div>
+        <span class="pill rv">Простые и доступные решения</span>
+      </div>
+      <div class="cards" id="base-cards"></div>
+    </div>
+
+    <div class="pro">
+      <div class="block-h">
+        <div><div class="eyebrow rv">Услуги · 02</div><h2 class="rv">Масштабные проекты</h2><p class="lead rv">Многостраничные разработки с продуманной структурой и возможностью роста.</p></div>
+        <span class="pill rv">Каждая услуга — от 30 000 ₽</span>
+      </div>
+      <div class="cards" id="pro-cards"></div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="wrap">
+    <div class="eyebrow rv">Портфолио</div>
+    <h2 class="rv">Примеры работ</h2>
+    <p class="lead rv">Пока здесь демонстрационные проекты — они показывают формат будущих кейсов.</p>
+    <div class="pf" id="pf" style="margin-top:44px"></div>
+    <p class="note rv">Реальные работы будут добавляться сюда по мере появления.</p>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="eyebrow rv">Как мы работаем</div>
+    <h2 class="rv">Пять шагов до запуска</h2>
+    <div class="steps" id="steps"></div>
+  </div>
+</section>
+
+<section class="contact" id="contacts">
+  <div class="wrap">
+    <div class="big rv">
+      <h2>Есть идея для проекта? Давайте воплотим её в жизнь!</h2>
+      <div class="info">
+        <a href="tel:+79677440404">+7 (967) 744-04-04</a>
+        <a href="https://t.me/zk_a1" target="_blank" rel="noopener">Telegram: @zk_a1</a>
+      </div>
+      <div class="cta">
+        <a class="btn pri" href="https://t.me/zk_a1" target="_blank" rel="noopener">Написать в Telegram <span class="ar">→</span></a>
+        <a class="btn ghost" href="tel:+79677440404">Позвонить</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© <span id="yr"></span> Pixel &amp; Code</span><a href="#top">Наверх ↑</a></div></footer>
+
+<script>
+const TG="https://t.me/zk_a1";
+const BASE=[
+ {t:"Сайт-визитка",p:"от 500 ₽",d:"Небольшой сайт для презентации компании, специалиста или услуги.",l:["Информация о компании или специалисте","Описание услуг","Контактные данные","Кнопки связи и переход в мессенджеры","Современный адаптивный дизайн"]},
+ {t:"Лендинг",p:"от 500 ₽",d:"Одностраничный сайт, который презентует продукт или услугу и помогает привлекать клиентов.",l:["Продающий первый экран","Описание продукта или услуги","Преимущества и особенности","Блок с ценами","Отзывы и примеры работ (при наличии)","Формы заявок и кнопки связи"]},
+ {t:"Сайт-портфолио",p:"500 ₽",d:"Сайт для демонстрации профессиональных навыков, проектов и выполненных работ.",l:["Информация обо мне или специалисте","Галерея проектов","Описание выполненных работ","Навыки и специализация","Контакты и ссылки на соцсети"]}
+];
+const PRO=[
+ {t:"Корпоративный сайт",d:"Сайт для компании, организации или бизнеса с несколькими разделами.",l:["Главная страница","Информация о компании","Каталог услуг или продукции","Разделы о команде и преимуществах","Контактная информация","Адаптивная версия"]},
+ {t:"Информационный портал / Медиа / Блог",d:"Платформа для публикации новостей, статей и полезных материалов.",l:["Система публикации статей","Категории и теги","Поиск по материалам","Страницы отдельных публикаций","Удобная система навигации","Возможность дальнейшего расширения"]},
+ {t:"Промо-сайт",d:"Яркий сайт для презентации продукта, мероприятия, бренда или рекламной кампании.",l:["Уникальная визуальная концепция","Анимации и интерактивные элементы","Презентация продукта или мероприятия","Акцент на ключевых преимуществах","Призывы к действию","Адаптивный дизайн"]}
+];
+/* Чтобы добавить проект — вставьте объект в этот массив.
+   img: ссылка на скриншот (необязательно), url: ссылка на сайт, demo: true для демонстрационных карточек. */
+const PROJECTS=[
+ {title:"Название проекта",type:"Сайт-визитка",text:"Краткое описание проекта появится здесь после добавления реальной работы.",c:["#7c5cff","#ff5c9d"],demo:true},
+ {title:"Название проекта",type:"Лендинг",text:"Здесь будет описание задачи и того, что было сделано в проекте.",c:["#c6ff3d","#2dd4bf"],demo:true},
+ {title:"Название проекта",type:"Корпоративный сайт",text:"Место для будущего кейса: структура, разделы, особенности сайта.",c:["#38bdf8","#7c5cff"],demo:true}
+];
+const STEPS=[["Обсуждение","Узнаю ваши пожелания и задачи."],["Согласование","Определяем функционал, дизайн и стоимость."],["Разработка","Создаю сайт и показываю промежуточные результаты."],["Проверка","Тестирую работу сайта и исправляю недочёты."],["Запуск","Передаю готовый проект заказчику."]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n+1).padStart(2,"0");
+const order=t=>`${TG}?text=${encodeURIComponent("Здравствуйте! Хочу заказать: "+t)}`;
+function card(s,i,pro){
+  return `<article class="spot rv" style="--d:${i*.1}s"><div class="card">
+    <div class="num"><span>${pad(i)}</span><span>${pro?"PRO":"START"}</span></div>
+    <h3>${esc(s.t)}</h3><p class="d">${esc(s.d)}</p>
+    <ul>${s.l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <div class="price"><div><small>Стоимость</small><b>${pro?"от 30 000 ₽":esc(s.p)}</b></div>
+    <a class="btn pri sm" href="${order(s.t)}" target="_blank" rel="noopener">Заказать <span class="ar">→</span></a></div></div></article>`;
+}
+document.getElementById("base-cards").innerHTML=BASE.map((s,i)=>card(s,i,false)).join("");
+document.getElementById("pro-cards").innerHTML=PRO.map((s,i)=>card(s,i,true)).join("");
+document.getElementById("pf").innerHTML=PROJECTS.map((p,i)=>{
+  const shot=p.img?`<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy">`:
+   `<div style="position:absolute;inset:0;background:linear-gradient(135deg,${p.c[0]},${p.c[1]})"></div><div class="bar"><i></i><i></i><i></i></div><div class="ln" style="top:46px;width:46%;height:16px"></div><div class="ln" style="top:76px;width:30%;opacity:.5"></div><div class="ln" style="top:96px;width:38%;opacity:.5"></div>`;
+  return `<article class="spot pj rv" style="--d:${i*.1}s"><div class="shot">${shot}${p.demo?'<span class="demo">Демонстрационный проект</span>':""}</div>
+  <div class="body"><span class="type">${esc(p.type)}</span><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p>
+  <a class="btn ghost sm" href="${p.url?esc(p.url):"#contacts"}" ${p.url?'target="_blank" rel="noopener"':""}>Посмотреть сайт <span class="ar">→</span></a></div></article>`;
+}).join("");
+document.getElementById("steps").innerHTML=STEPS.map((s,i)=>`<div class="step rv" style="--d:${i*.1}s"><div class="n">${pad(i)}</div><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join("");
+document.getElementById("yr").textContent=new Date().getFullYear();
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+/* spotlight */
+document.addEventListener("pointermove",e=>{const c=e.target.closest&&e.target.closest(".spot");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")});
+/* header, menu, active link */
+const hd=document.querySelector("header"),bg=document.getElementById("burger"),mn=document.getElementById("menu");
+const onS=()=>hd.classList.toggle("scrolled",scrollY>20);onS();addEventListener("scroll",onS,{passive:true});
+bg.addEventListener("click",()=>{const o=mn.classList.toggle("open");bg.setAttribute("aria-expanded",o)});
+mn.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mn.classList.remove("open");bg.setAttribute("aria-expanded","false")}));
+const secs=["home","services","portfolio","contacts"].map(id=>document.getElementById(id));
+const lk=[...mn.querySelectorAll("a:not(.btn)")];
+const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){lk.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(s=>so.observe(s));
+</script>
+</body>
+</html>
